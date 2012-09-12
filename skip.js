@@ -40,11 +40,12 @@
 
 
 
-	var SKIP_JS = 3.3,
+	SKIP_JS = 3.4
 
 
 
 
+	var
 	forceAugment = function( type, name, data ){
 
 		type.prototype[ name ] = data
@@ -214,6 +215,16 @@
 
 			return Math.abs( this )
 		},
+		add: function()
+		{
+			var sum = this
+
+			Array.prototype.slice.call( arguments ).forEach( function( n ){
+
+				sum += n
+			})
+			return sum
+		},
 		arcCosine: function(){
 
 			return Math.acos( this )
@@ -256,9 +267,27 @@
 
 			return this * Math.PI / 180
 		},
+		divide: function()
+		{
+			var sum = this
+
+			Array.prototype.slice.call( arguments ).forEach( function( n ){
+
+				sum /= n
+			})
+			return sum
+		},
 		floor: function(){
 
 			return Math.floor( this )
+		},
+		isBetween: function( a, b ){
+			
+			var 
+			min = Math.min( a, b ),
+			max = Math.max( a, b )
+			
+			return ( min <= this && this <= max )
 		},
 		lerp: function( a, b ){
 
@@ -269,13 +298,6 @@
 			// is this more pragmatic? ---> return ( '' + this.round() ).length;
 			return Math.log( this ) / Math.log( 10 )
 		},
-		scale: function( a0, a1, b0, b1 ){
-
-			var phase = this.normalize( a0, a1 )
-
-			if( b0 == b1 ) return b1
-			return b0 + phase * ( b1 - b0 )
-		},
 		maximum: function( n ){
 
 			return Math.max( this, n )
@@ -283,6 +305,16 @@
 		minimum: function( n ){
 
 			return Math.min( this, n )
+		},
+		multiply: function()
+		{
+			var sum = this
+
+			Array.prototype.slice.call( arguments ).forEach( function( n ){
+
+				sum *= n
+			})
+			return sum
 		},
 		normalize: function( a, b ){
 
@@ -331,9 +363,26 @@
 			n /= Math.pow( 10, decimals )
 			return n
 		},
+		scale: function( a0, a1, b0, b1 ){
+
+			var phase = this.normalize( a0, a1 )
+
+			if( b0 == b1 ) return b1
+			return b0 + phase * ( b1 - b0 )
+		},
 		sine: function(){
 
 			return Math.sin( this )
+		},
+		subtract: function()
+		{
+			var sum = this
+
+			Array.prototype.slice.call( arguments ).forEach( function( n ){
+
+				sum -= n
+			})
+			return sum
 		},
 		tangent: function(){
 
@@ -364,6 +413,17 @@
 
 
 
+
+		//  Fun with dates:
+
+		//  ((2).months() + (3).weeks() + (5).days() + (9).hours() + MINUTE ).ago().toDate()
+		//  Sat Jun 16 2012 13:03:07 GMT-0400 (EDT)
+
+		//  ((2).months() + (3).weeks() + (5).days() + (9).hours() + MINUTE ).fromNow().toDate()
+		//  Sat Dec 08 2012 00:01:23 GMT-0500 (EST)
+
+		//  (2).days().ago().isBetween( (3).weeks().ago(), (2).hours().ago() )
+		//  true
 		
 		seconds: function(){
 
@@ -404,6 +464,10 @@
 		ago: function(){
 
 			return +Date.now() - this
+		},
+		fromNow: function(){
+
+			return +Date.now() + this
 		},
 		toDate: function(){
 
@@ -461,7 +525,15 @@
 		},
 		toCamelCase: function(){
 			
-			//  remove spaces and underscores and replace with camelized!
+			var
+			split  = this.split( /\W+|_+/ ),
+			joined = split[ 0 ],
+			i
+
+			for( i = 1; i < split.length; i ++ )
+				joined += split[ i ].capitalize()
+
+			return joined
 		},
 		toDegrees: function(){
 
@@ -477,7 +549,13 @@
 		},
 		toUnderscoreCase: function(){
 			
-			// replace camelizations and spaces with underscores
+			var underscored = this.replace( /[A-Z]+/g, function( $0 ){
+				
+				return '_' + $0
+			})
+
+			if( underscored.charAt( 0 ) === '_' ) underscored = underscored.substr( 1 )
+			return underscored.toLowerCase()
 		},
 		toUnicode: function(){
 
