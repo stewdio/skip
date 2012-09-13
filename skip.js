@@ -40,7 +40,7 @@
 
 
 
-	SKIP_JS = 3.4
+	SKIP_JS = 3.5
 
 
 
@@ -246,10 +246,10 @@
 			var higher, lower, c = this
 
 			b = b || 0
-			higher = [ a, b ].max()
-			lower  = [ a, b ].min()
-			c = [ c, higher ].min()
-			c = [ c, lower  ].max()
+			higher = Math.max( a, b )
+			lower  = Math.min( a, b )
+			c = Math.min( c, higher )
+			c = Math.max( c, lower  )
 			return c
 		},
 		cosine: function(){
