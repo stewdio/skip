@@ -40,7 +40,7 @@
 
 
 
-	SKIP_JS = 3.5
+	SKIP_JS = 3.6
 
 
 
@@ -123,6 +123,14 @@
 				return Math.pow( sum, 0.5 )
 			}
 			else return null
+		},
+		first: function(){
+			
+			return this[ 0 ]
+		},
+		last: function(){
+			
+			return this[ this.length - 1 ]
 		},
 		maximum: function(){
 
@@ -329,7 +337,7 @@
 
 			return this * 180 / Math.PI
 		},
-		randomInteger: function( n ){
+		rand: function( n ){
 
 			var min, max
 
@@ -341,7 +349,7 @@
 			}
 			return Math.floor( Math.random() * this )
 		},
-		randomFloat: function( n ){
+		random: function( n ){
 
 			var min, max
 
