@@ -40,7 +40,7 @@
 
 
 
-	SKIP_JS = 3.62
+	SKIP_JS = 3.63
 
 
 
@@ -115,7 +115,7 @@
 
 			var i, sum = 0
 
-			if( arguments.length > 1 ) 
+			if( arguments.length > 0 ) 
 				target = Array.prototype.slice.call( arguments )
 			if( this.length === target.length ){
 
