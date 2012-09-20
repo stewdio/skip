@@ -40,7 +40,7 @@
 
 
 
-	SKIP_JS = 3.6
+	SKIP_JS = 3.62
 
 
 
@@ -100,6 +100,7 @@
 	YEAR    = DAY    * 365.242199
 	DECADE  = YEAR   *  10
 	CENTURY = YEAR   * 100
+	now     = function(){ return +Date.now() }
 
 	MIN = Number.MIN_VALUE
 	MAX = Number.MAX_VALUE
@@ -152,13 +153,14 @@
 				if( this[i] === obj ) return i
 			return -1//  I'd rather return NaN, but this is more standard.
 		},
-		remove: function( from, to ){
+		//  Ran into trouble here with Three.js. Will investigate....
+		/*remove: function( from, to ){
 
 			var rest = this.slice(( to || from ) + 1 || this.length )
 			
 			this.length = from < 0 ? this.length + from : from
 			return this.push.apply( this, rest )
-		},
+		},*/
 		shuffle: function(){
 
 			var 
