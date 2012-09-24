@@ -40,7 +40,7 @@
 
 
 
-	SKIP_JS = 3.63
+	SKIP_JS = 3.64
 
 
 
@@ -412,14 +412,6 @@
 			// so what about decimals? padding to right of decimal?
 			return padding + stringed
 		},
-		unixToYear: function(){
-
-			return ( new Date( this * 1000 )).getUTCFullYear()
-		},
-		yearToUnix: function(){
-
-			return ( new Date( this, 0, 0, 0, 0, 0, 0 )).valueOf() / 1000
-		},
 
 
 
@@ -481,10 +473,26 @@
 		},
 		toDate: function(){
 
-			return new Date( this )
-		}
+			return new Date( +this )
+		},
 
-		
+
+		//  Both the Unix epoch and the JavaScript epoch
+		//  began on 01 January 1970 at 00:00:00 UTC.
+		//  Unix counts time in SECONDS since then.
+		//  JavaScript counts time in MILLISECONDS since then.
+		//  Also don't forget that these below are in LOCAL timezones!
+
+		unixToYear: function(){
+
+			return ( new Date( this * 1000 )).getFullYear()
+		},
+		yearToUnix: function(){
+
+			//  Pay attention: Every arg is zero-indexed
+			//  except for the day of the month, which is one-indexed!!
+			return ( new Date( this, 0, 1, 0, 0, 0, 0 )).valueOf() / 1000
+		}
 	})
 
 
