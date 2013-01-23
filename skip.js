@@ -12,25 +12,25 @@
 
 
 
-//  Copyright (C) 2012, Stewart Smith.
+//  Copyright (C) 2012-2013, Stewart Smith.
 //  
 //  Permission is hereby granted, free of charge, to any person obtaining a	
 //  copy of this software and associated documentation files (the "Software"), 
 //  to deal in the Software without restriction, including without limitation 
 //  the rights to use, copy, modify, merge, publish, distribute, sublicense, 
-//  and/or sell copies of the Software, and to permit persons to whom the 
-//  Software is furnished to do so, subject to the following conditions:
+//  and/or sell copies of the Software, and to permit persons to whom
+//  the Software is furnished to do so, subject to the following conditions:
 //  
-//  The above copyright notice and this permission notice shall be included in 
-//  all copies or substantial portions of the Software.
+//  The above copyright notice and this permission notice shall be included 
+//  in all copies or substantial portions of the Software.
 //  
-//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
-//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
-//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL 
-//  THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
-//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
-//  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
-//  DEALINGS IN THE SOFTWARE.
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS 
+//  OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
+//  MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+//  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR 
+//  ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
+//  TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+//  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 
@@ -40,16 +40,15 @@
 
 
 
-	SKIP_JS = 3.64
+	SKIP_JS = 20130122.1332
 
 
 
 
-	var
 	forceAugment = function( type, name, data ){
 
 		type.prototype[ name ] = data
-	},
+	}
 	augment = function( type, name, data ){
 
 		var key
@@ -64,7 +63,7 @@
 
 			for( key in name ) augment( type, key, name[ key ] )
 		}
-	},
+	}
 	cascade = function(){
 
 		var i, args = Array.prototype.slice.call( arguments )
@@ -72,12 +71,12 @@
 		for( i = 0; i < args.length; i ++ )
 			if( args[ i ] !== undefined ) return args[ i ]
 		return false
-	},
+	}
 	coinFlip = function(){
 
 		return Math.round( Math.random() )
 	}
-
+	
 
 
 
@@ -86,7 +85,7 @@
 	TAU     = Math.PI * 2
 	SQRT2   = Math.SQRT2
 	SQRT1_2 = Math.SQRT1_2
-	LN      = Math.LN2
+	LN2     = Math.LN2
 	LN10    = Math.LN10
 	LOG2E   = Math.LOG2E
 	LOG10E  = Math.LOG10E
@@ -111,7 +110,7 @@
 	augment( Array, {
 		
 		
-		distanceTo: function( target ){
+		distanceTo : function( target ){
 
 			var i, sum = 0
 
@@ -125,23 +124,27 @@
 			}
 			else return null
 		},
-		first: function(){
+		first : function(){
 			
 			return this[ 0 ]
 		},
-		last: function(){
+		last : function(){
 			
 			return this[ this.length - 1 ]
 		},
-		maximum: function(){
+		maximum : function(){
 
 			return Math.max.apply( null, this )
 		},
-		minimum: function(){
+		middle : function(){
+		
+			return this[ Math.round(( this.length - 1 ) / 2 ) ]
+		},
+		minimum : function(){
 
 			return Math.min.apply( null, this )
 		},
-		indexOf: function( obj, fromIndex ){
+		indexOf : function( obj, fromIndex ){
 
 			var i, j
 
@@ -161,7 +164,7 @@
 			this.length = from < 0 ? this.length + from : from
 			return this.push.apply( this, rest )
 		},*/
-		shuffle: function(){
+		shuffle : function(){
 
 			var 
 			copy = this,
@@ -181,7 +184,7 @@
 			}
 			return copy
 		},
-		toHtml: function(){
+		toHtml : function(){
 
 			var i, html = '<ul>'
 
@@ -195,7 +198,7 @@
 			html += '</ul>'
 			return html
 		},
-		toText: function( depth ){
+		toText : function( depth ){
 
 			var i, indent, text
 
@@ -221,12 +224,12 @@
 	augment( Number, {
 
 
-		absolute: function(){
+		absolute : function(){
 
 			return Math.abs( this )
 		},
-		add: function()
-		{
+		add : function(){
+			
 			var sum = this
 
 			Array.prototype.slice.call( arguments ).forEach( function( n ){
@@ -235,23 +238,19 @@
 			})
 			return sum
 		},
-		arcCosine: function(){
+		arcCosine : function(){
 
 			return Math.acos( this )
 		},
-		arcSine: function(){
+		arcSine : function(){
 
 			return Math.asin( this )
 		},
-		arcTangent: function(){
+		arcTangent : function(){
 
 			return Math.atan( this )
 		},
-		ceil: function(){
-
-			return Math.ceil( this )
-		},
-		constrain: function( a, b ){
+		constrain : function( a, b ){
 
 			var higher, lower, c = this
 
@@ -262,23 +261,23 @@
 			c = Math.max( c, lower  )
 			return c
 		},
-		cosine: function(){
+		cosine : function(){
 
 			return Math.cos( this )
 		},
-		degreesToDirection: function(){
+		degreesToDirection : function(){
 
 			var d = this % 360,
 
 			directions = [ 'N', 'NNE', 'NE', 'NEE', 'E', 'SEE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'SWW', 'W', 'NWW', 'NW', 'NNW', 'N' ]
 			return directions[ this.scale( 0, 360, 0, directions.length - 1 ).round() ]
 		},
-		degreesToRadians: function(){
+		degreesToRadians : function(){
 
 			return this * Math.PI / 180
 		},
-		divide: function()
-		{
+		divide : function(){
+			
 			var sum = this
 
 			Array.prototype.slice.call( arguments ).forEach( function( n ){
@@ -287,11 +286,7 @@
 			})
 			return sum
 		},
-		floor: function(){
-
-			return Math.floor( this )
-		},
-		isBetween: function( a, b ){
+		isBetween : function( a, b ){
 			
 			var 
 			min = Math.min( a, b ),
@@ -299,25 +294,33 @@
 			
 			return ( min <= this && this <= max )
 		},
-		lerp: function( a, b ){
+		lerp : function( a, b ){
 
 			return a + (b - a ) * this
 		},
-		log10: function(){
+		log : function( base ){
+			
+			return Math.log( this ) / ( base === undefined ? 1 : Math.log( base ))
+		},
+		log10 : function(){
 
 			// is this more pragmatic? ---> return ( '' + this.round() ).length;
-			return Math.log( this ) / Math.log( 10 )
+			return Math.log( this ) / Math.LN10
 		},
-		maximum: function( n ){
+		maximum : function( n ){
 
 			return Math.max( this, n )
 		},
-		minimum: function( n ){
+		minimum : function( n ){
 
 			return Math.min( this, n )
 		},
-		multiply: function()
-		{
+		modulo : function( n ){
+		
+			return this % n
+		},
+		multiply : function(){
+			
 			var sum = this
 
 			Array.prototype.slice.call( arguments ).forEach( function( n ){
@@ -326,20 +329,20 @@
 			})
 			return sum
 		},
-		normalize: function( a, b ){
+		normalize : function( a, b ){
 
 			if( a == b ) return 1.0
 			return ( this - a ) / ( b - a )
 		},
-		raiseTo: function( exponent ){
+		raiseTo : function( exponent ){
 
 			return Math.pow( this, exponent )
 		},
-		radiansToDegrees: function(){
+		radiansToDegrees : function(){
 
 			return this * 180 / Math.PI
 		},
-		rand: function( n ){
+		rand : function( n ){
 
 			var min, max
 
@@ -351,7 +354,7 @@
 			}
 			return Math.floor( Math.random() * this )
 		},
-		random: function( n ){
+		random : function( n ){
 
 			var min, max
 
@@ -363,7 +366,7 @@
 			}
 			return Math.random() * this
 		},
-		round: function( decimals ){
+		round : function( decimals ){
 
 			var n  = this
 
@@ -373,19 +376,27 @@
 			n /= Math.pow( 10, decimals )
 			return n
 		},
-		scale: function( a0, a1, b0, b1 ){
+		roundDown : function(){
+
+			return Math.floor( this )
+		},
+		roundUp : function(){
+
+			return Math.ceil( this )
+		},
+		scale : function( a0, a1, b0, b1 ){
 
 			var phase = this.normalize( a0, a1 )
 
 			if( b0 == b1 ) return b1
 			return b0 + phase * ( b1 - b0 )
 		},
-		sine: function(){
+		sine : function(){
 
 			return Math.sin( this )
 		},
-		subtract: function()
-		{
+		subtract : function(){
+			
 			var sum = this
 
 			Array.prototype.slice.call( arguments ).forEach( function( n ){
@@ -394,13 +405,17 @@
 			})
 			return sum
 		},
-		tangent: function(){
+		tangent : function(){
 
 			return Math.tan( this )
 		},
-		toPaddedString: function( digits, decimals ){
+		toPaddedString : function( digits, decimals ){
 
-			var 
+			//  @@ 
+			//  Need to review this later. 
+			//  Mos def not bullet proof and also doesn't handle decimals.
+			
+			var
 			i,
 			stringed = '' + this,
 			padding  = ''
@@ -427,51 +442,51 @@
 		//  (2).days().ago().isBetween( (3).weeks().ago(), (2).hours().ago() )
 		//  true
 		
-		seconds: function(){
+		seconds : function(){
 
 			return this * SECOND
 		},
-		minutes: function(){
+		minutes : function(){
 
 			return this * MINUTE
 		},
-		hours: function(){
+		hours : function(){
 
 			return this * HOUR
 		},
-		days: function(){
+		days : function(){
 
 			return this * DAY
 		},
-		weeks: function(){
+		weeks : function(){
 
 			return this * WEEK
 		},
-		months: function(){
+		months : function(){
 
 			return this * MONTH
 		},
-		years: function(){
+		years : function(){
 
 			return this * YEAR
 		},
-		decades: function(){
+		decades : function(){
 
 			return this * DECADE
 		},
-		centuries: function(){
+		centuries : function(){
 
 			return this * CENTURY
 		},
-		ago: function(){
+		ago : function(){
 
 			return +Date.now() - this
 		},
-		fromNow: function(){
+		fromNow : function(){
 
 			return +Date.now() + this
 		},
-		toDate: function(){
+		toDate : function(){
 
 			return new Date( +this )
 		},
@@ -483,11 +498,11 @@
 		//  JavaScript counts time in MILLISECONDS since then.
 		//  Also don't forget that these below are in LOCAL timezones!
 
-		unixToYear: function(){
+		unixToYear : function(){
 
 			return ( new Date( this * 1000 )).getFullYear()
 		},
-		yearToUnix: function(){
+		yearToUnix : function(){
 
 			//  Pay attention: Every arg is zero-indexed
 			//  except for the day of the month, which is one-indexed!!
@@ -501,15 +516,15 @@
 	augment( String, {
 
 
-		capitalize: function(){
+		capitalize : function(){
 
 			return this.charAt( 0 ).toUpperCase() + this.slice( 1 ).toLowerCase()
 		},
-		isEmpty: function(){
+		isEmpty : function(){
 
 			return this.length === 0 ? true : false
 		},
-		multiply: function( n ){
+		multiply : function( n ){
 
 			var i, s = ''
 
@@ -519,7 +534,7 @@
 			}
 			return s
 		},
-		reverse: function(){
+		reverse : function(){
 
 			var i, s = ''
 
@@ -528,11 +543,11 @@
 			}
 			return s
 		},
-		size: function(){
+		size : function(){
 
 			return this.length
 		},
-		toEntities: function(){
+		toEntities : function(){
 
 			var i, entities = ''
 
@@ -541,7 +556,7 @@
 			}
 			return entities
 		},
-		toCamelCase: function(){
+		toCamelCase : function(){
 			
 			var
 			split  = this.split( /\W+|_+/ ),
@@ -553,7 +568,7 @@
 
 			return joined
 		},
-		toDegrees: function(){
+		directionToDegrees : function(){
 
 			var
 			directions = [ 'N', 'NNE', 'NE', 'NEE', 'E', 'SEE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'SWW', 'W', 'NWW', 'NW', 'NNW', 'N' ],
@@ -561,11 +576,11 @@
 
 			return i >= 0 ? i.scale( 0, directions.length - 1, 0, 360 ) : Number.NaN
 		},
-		toNumber: function(){
+		toNumber : function(){
 
 			return parseFloat( this )
 		},
-		toUnderscoreCase: function(){
+		toUnderscoreCase : function(){
 			
 			var underscored = this.replace( /[A-Z]+/g, function( $0 ){
 				
@@ -575,7 +590,7 @@
 			if( underscored.charAt( 0 ) === '_' ) underscored = underscored.substr( 1 )
 			return underscored.toLowerCase()
 		},
-		toUnicode: function(){
+		toUnicode : function(){
 
 			var i, u, unicode = ''
 
