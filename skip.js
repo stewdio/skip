@@ -40,7 +40,7 @@
 
 
 
-	SKIP_JS = 20130122.1332
+	SKIP_JS = 20130801.1021
 
 
 
@@ -64,6 +64,32 @@
 			for( key in name ) augment( type, key, name[ key ] )
 		}
 	}
+	forceLearn = function( student, teacher ){
+
+		for( var p in teacher ){
+		
+			if( teacher.hasOwnProperty( p )){
+
+				if( teacher[ p ].constructor === Object ) 
+					student[ p ] = forceLearn( student[ p ], teacher[ p ])
+				else student[ p ] = teacher[ p ]
+			}
+		}
+		return student
+	}
+	learn = function( student, teacher ){
+
+		for( var p in teacher ){
+		
+			if( teacher.hasOwnProperty( p ) && student[ p ] === undefined ){
+
+				if( teacher[ p ].constructor === Object ) 
+					student[ p ] = learn( student[ p ], teacher[ p ])
+				else student[ p ] = teacher[ p ]
+			}
+		}
+		return student
+	}
 	cascade = function(){
 
 		var i, args = Array.prototype.slice.call( arguments )
@@ -76,11 +102,16 @@
 
 		return Math.round( Math.random() )
 	}
+	isNumeric = function( n ){
+
+		return !isNaN( parseFloat( n )) && isFinite( n )
+	}
 	
 
 
 
 	E       = Math.E
+	HALF_PI = Math.PI / 2
 	PI      = Math.PI
 	TAU     = Math.PI * 2
 	SQRT2   = Math.SQRT2
@@ -156,6 +187,14 @@
 				if( this[i] === obj ) return i
 			return -1//  I'd rather return NaN, but this is more standard.
 		},
+		rand : function(){
+
+			return this[ Math.floor( Math.random() * this.length )]
+		},
+		random : function(){//  Convenience here. Exactly the same as .rand().
+
+			return this[ Math.floor( Math.random() * this.length )]
+		},
 		//  Ran into trouble here with Three.js. Will investigate....
 		/*remove: function( from, to ){
 
@@ -183,6 +222,10 @@
 				copy[ j ] = tempi
 			}
 			return copy
+		},
+		toArray : function(){
+
+			return this
 		},
 		toHtml : function(){
 
@@ -409,6 +452,14 @@
 
 			return Math.tan( this )
 		},
+		toArray : function(){
+
+			return [ this.valueOf() ]
+		},
+		toNumber : function(){
+
+			return this.valueOf()
+		},
 		toPaddedString : function( digits, decimals ){
 
 			//  @@ 
@@ -426,6 +477,17 @@
 				padding += '0'
 			// so what about decimals? padding to right of decimal?
 			return padding + stringed
+		},
+		toSignedString : function(){
+
+			var stringed = '' + this
+			
+			if( this >= 0 ) stringed = '+' + stringed
+			return stringed
+		},
+		toString : function(){
+
+			return ''+ this
 		},
 
 
@@ -518,11 +580,67 @@
 
 		capitalize : function(){
 
-			return this.charAt( 0 ).toUpperCase() + this.slice( 1 ).toLowerCase()
+			return this.charAt( 0 ).toUpperCase() + this.slice( 1 )//.toLowerCase()
+		},
+		invert: function(){
+
+			var
+			s = '',
+			i
+
+			for( i = 0; i < this.length; i ++ ){
+
+				if( this.charAt( i ) === this.charAt( i ).toUpperCase()) s += this.charAt( i ).toLowerCase()
+				else s += this.charAt( i ).toUpperCase()
+			}
+			return s
 		},
 		isEmpty : function(){
 
 			return this.length === 0 ? true : false
+		},
+		justifyCenter : function( n ){
+
+			var
+			thisLeftLength  = Math.round( this.length / 2 ),
+			thisRightLength = this.length - thisLeftLength,
+			containerLeftLength  = Math.round( n / 2 ),
+			containerRightLength = n - containerLeftLength,
+			padLeftLength  = containerLeftLength  - thisLeftLength,
+			padRightLength = containerRightLength - thisRightLength,
+			centered = this
+
+			if( padLeftLength > 0 ){
+
+				while( padLeftLength -- ) centered = ' ' + centered
+			}
+			else if( padLeftLength < 0 ){
+
+				centered = centered.substr( padLeftLength * -1 )
+			}
+			if( padRightLength > 0 ){
+
+				while( padRightLength -- ) centered += ' '
+			}
+			else if( padRightLength < 0 ){
+
+				centered = centered.substr( 0, centered.length + padRightLength )
+			}
+			return centered
+		},
+		justifyLeft: function( n ){
+
+			var justified = this
+
+			while( justified.length < n ) justified = justified + ' '
+			return justified
+		},
+		justifyRight: function( n ){
+
+			var justified = this
+
+			while( justified.length < n ) justified = ' ' + justified
+			return justified
 		},
 		multiply : function( n ){
 
@@ -576,9 +694,17 @@
 
 			return i >= 0 ? i.scale( 0, directions.length - 1, 0, 360 ) : Number.NaN
 		},
+		toArray : function(){
+
+			return [ this ]
+		},
 		toNumber : function(){
 
 			return parseFloat( this )
+		},
+		toString : function(){
+
+			return this
 		},
 		toUnderscoreCase : function(){
 			
