@@ -40,7 +40,7 @@
 
 
 
-	SKIP_JS = 20130801.1021
+	SKIP_JS = 20130925.1410
 
 
 
@@ -130,7 +130,8 @@
 	YEAR    = DAY    * 365.242199
 	DECADE  = YEAR   *  10
 	CENTURY = YEAR   * 100
-	now     = function(){ return +Date.now() }
+	NOW     = 0
+	setInterval( function(){ NOW = +Date.now() }, 1 )
 
 	MIN = Number.MIN_VALUE
 	MAX = Number.MAX_VALUE
@@ -140,7 +141,27 @@
 
 	augment( Array, {
 		
-		
+		average : function( ignoreNaNs ){
+
+			var 
+			sum = 0,
+			entries = 0
+
+			this.forEach( function( n ){
+
+				if( ignoreNaNs != true ){
+
+					sum += n
+					entries ++
+				}
+				else if( n !== '' && isNumeric( +n )){
+
+					sum += +n
+					entries ++
+				}
+			})
+			return sum / entries
+		},		
 		distanceTo : function( target ){
 
 			var i, sum = 0
@@ -163,17 +184,45 @@
 			
 			return this[ this.length - 1 ]
 		},
-		maximum : function(){
+		maximum : function( ignoreNaNs ){
 
-			return Math.max.apply( null, this )
+			var max
+
+			if( ignoreNaNs ){
+
+				this.forEach( function( n ){
+
+					if( n !== '' && isNumeric( +n )){
+
+						if( max === undefined ) max = MIN
+						max = Math.max( max, +n )
+					}
+				})
+				return max
+			}
+			else return Math.max.apply( null, this )
 		},
 		middle : function(){
 		
 			return this[ Math.round(( this.length - 1 ) / 2 ) ]
 		},
-		minimum : function(){
+		minimum : function( ignoreNaNs ){
 
-			return Math.min.apply( null, this )
+			var min
+
+			if( ignoreNaNs ){
+
+				this.forEach( function( n ){
+
+					if( n !== '' && isNumeric( +n )){
+
+						if( min === undefined ) min = MAX
+						min = Math.min( min, +n )
+					}
+				})
+				return min
+			}
+			else return Math.min.apply( null, this )
 		},
 		indexOf : function( obj, fromIndex ){
 
