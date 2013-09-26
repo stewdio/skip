@@ -40,7 +40,7 @@
 
 
 
-	SKIP_JS = 20130925.1410
+	SKIP_JS = 20130926.1346
 
 
 
@@ -113,7 +113,9 @@
 	E       = Math.E
 	HALF_PI = Math.PI / 2
 	PI      = Math.PI
+	π       = Math.PI
 	TAU     = Math.PI * 2
+	π2      = Math.PI * 2
 	SQRT2   = Math.SQRT2
 	SQRT1_2 = Math.SQRT1_2
 	LN2     = Math.LN2
@@ -130,8 +132,11 @@
 	YEAR    = DAY    * 365.242199
 	DECADE  = YEAR   *  10
 	CENTURY = YEAR   * 100
-	NOW     = 0
-	setInterval( function(){ NOW = +Date.now() }, 1 )
+	NOW     = Infinity
+	Object.defineProperty( window, 'NOW', {
+
+	    get: function(){ return +Date.now() }
+	})
 
 	MIN = Number.MIN_VALUE
 	MAX = Number.MAX_VALUE
